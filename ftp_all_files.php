@@ -37,6 +37,51 @@
         return $pretty;
     }
     
+    // expects pretty file / filelist
+    function ftp_delete_files($conn, $files, &$fails = null) {
+        if (!$fails) {
+            $fails =  [];
+        }
+        // array of files
+        if ( is_array( array_values($files)[0] ) ) {
+            foreach ($files as $file) {
+                ftp_delete_files($conn, $file, $fails);
+            }
+        } else {
+            // just file
+            $file = $files;
+            // it's a folder
+            if ($file["type"] == "dir") {
+                // non-empty folder
+                if ( isset($file["children"]) ) {
+                    // first delete all child files (and folders)
+                    foreach ($file["children"] as $child) {
+                        ftp_delete_files($conn, $child, $fails);
+                    }
+                    // then delete the (parent) folder
+                    if (!@ftp_rmdir($conn, $file["path"])) {
+                        $fails[] = $file;
+                    }
+                } else {
+                    // empty folder
+                    if (!@ftp_rmdir($conn, $file["path"])) {
+                        $fails[] = $file;
+                    }
+                }
+            } else {
+                // it's a file
+                if (!@ftp_delete($conn, $file["path"])) {
+                    $fails[] = $file;
+                }
+            }
+        }
+        // for whatever reasons, these could not be deleted
+        if (count($fails) > 0) {
+            return $fails;
+        }
+        return true;
+    }
+    
     
     /* example output
     
