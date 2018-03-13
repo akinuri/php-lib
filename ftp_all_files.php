@@ -3,7 +3,7 @@
     // https://stackoverflow.com/questions/49250700/ftp-rawlist-doesnt-list-htaccess
     function ftp_all_files($resource, $directory = ".") {
         $rawlist    = ftp_rawlist($resource, "-a " . $directory);
-        $rawlist    = array_filter($rawlist, function ($item) { return !preg_match('/\.?\.$/', $item); });
+        $rawlist    = array_values(array_filter($rawlist, function ($item) { return !preg_match('/\.?\.$/', $item); }));
         $prettylist = array_map(function ($item) use ($directory) { return ftp_raw2pretty($directory, $item); }, $rawlist);
         foreach ($prettylist as &$item) {
             if ($item["type"] == "dir") {
@@ -36,5 +36,58 @@
         }
         return $pretty;
     }
+    
+    
+    /* example output
+    
+    Array
+    (
+        [0] => Array
+            (
+                [name] => cgi-bin
+                [path] => public_html/cgi-bin
+                [parent] => public_html
+                [type] => dir
+                [size] => 4096
+                [last-mod] => Mar 13 11:50
+                [perm] => drwxr-xr-x
+                [user] => 769
+                [group] => test
+                [links] => 2
+                [children] => Array
+                    (
+                        [0] => Array
+                            (
+                                [name] => .htaccess
+                                [path] => public_html/cgi-bin/.htaccess
+                                [parent] => public_html/cgi-bin
+                                [type] => file
+                                [size] => 11
+                                [last-mod] => Mar 13 11:44
+                                [perm] => -rw-r--r--
+                                [user] => 769
+                                [group] => test
+                                [links] => 1
+                            )
+
+                    )
+
+            )
+
+        [1] => Array
+            (
+                [name] => index.html
+                [path] => public_html/index.html
+                [parent] => public_html
+                [type] => file
+                [size] => 608
+                [last-mod] => Mar 13 10:49
+                [perm] => -rw-r--r--
+                [user] => 769
+                [group] => test
+                [links] => 1
+            )
+    )
+    */
     
 ?>
