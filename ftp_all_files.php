@@ -83,7 +83,7 @@
     }
     
     
-    /* example output
+    /* example ftp_all_files() output
     
     Array
     (
