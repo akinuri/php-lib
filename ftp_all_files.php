@@ -19,8 +19,8 @@
         $parent_dir = $parent_dir == "/" ? "" : $parent_dir;
         $pretty = [
             "name"      => $cols[8],
-            "path"      => $parent_dir ."/". $cols[8],
-            "parent"    => $parent_dir,
+            "path"      => str_replace("-a ", "", $parent_dir ."/". $cols[8]),
+            "parent"    => str_replace("-a ", "", $parent_dir),
             "type"      => "file",
             "size"      => $cols[4], // in bytes
             "last-mod"  => implode(" ", [$cols[5], $cols[6], $cols[7]]),
@@ -29,8 +29,6 @@
             "group"     => $cols[3],
             "links"     => $cols[1],
         ];
-        $pretty["path"] = str_replace("-a ", "", $pretty["path"]);
-        $pretty["parent"] = str_replace("-a ", "", $pretty["parent"]);
         if ($cols[0][0] == "d") {
             $pretty["type"] = "dir";
         } else if ($cols[0][0] == "l") {
