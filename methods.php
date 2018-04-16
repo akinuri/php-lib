@@ -44,7 +44,6 @@
     }
     
     
-    
     function POST($param, $empty_allowed = false, $die = false) {
         
         $value = null;
@@ -101,31 +100,5 @@
         // there is no parameter
         return null;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 ?>
