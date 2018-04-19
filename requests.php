@@ -1,45 +1,33 @@
 <?php
     
-    function GET($param, $empty_allowed = false, $die = false) {
+    function GET($param, $alternative = "", $required = false) {
         
         $value = null;
         
-        // there is a parameter
         if (isset($_GET[$param])) {
             
             $value = $_GET[$param];
             
-            // empty values are allowed (for switch-like parameters)
-            if ($empty_allowed) {
-                
-                if (trim($value) == "") {
-                    return true;
-                }
-                
-                return $value;
-            }
-            
-            // empty values are not allowed
             if (trim($value) == "") {
                 
-                // die if the value is required
-                if ($die) {
+                if ($required) {
                     die("ERROR: Missing parameter value: $param");
                 }
                 
-                // if there is a parameter AND its value is empty AND it's not required, do what?
-                // if the parameter is expected to be not empty, it should be required
-                return null;
+                return $alternative;
             }
             
             return $value;
         }
         
-        if ($die) {
+        if ($required) {
             die("ERROR: Missing parameter: $param");
         }
         
-        // there is no parameter
+        if ($alternative) {
+            return $alternative;
+        }
+        
         return null;
     }
     
