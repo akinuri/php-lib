@@ -1,6 +1,6 @@
 <?php
     
-    function GET($param, $alternative = "", $required = false) {
+    function GET($param, $switchlike = false, $required = false) {
         
         $value = null;
         
@@ -8,85 +8,45 @@
             
             $value = $_GET[$param];
             
-            if (trim($value) == "") {
-                
-                if ($required) {
-                    die("ERROR: Missing parameter value: $param");
-                }
-                
-                return $alternative;
+            if ($switchlike && in_array(strtolower($value), ["1", "on", "true", ""])) {
+                return true;
+            }
+            
+            if ($required && trim($value) == "") {
+                die(json_encode(["error" => "Missing parameter value: $param"]));
             }
             
             return $value;
         }
         
         if ($required) {
-            die("ERROR: Missing parameter: $param");
-        }
-        
-        if ($alternative) {
-            return $alternative;
+            die(json_encode(["error" => "Missing parameter: $param"]));
         }
         
         return null;
     }
     
-    
-    function POST($param, $empty_allowed = false, $die = false) {
-        
+    function POST($param, $required = false) {
         $value = null;
-        
         if (isset($_POST[$param])) {
             $value = $_POST[$param];
-        }
-        else if (isset($_FILES[$param])) {
+        } else if (isset($_FILES[$param])) {
             $value = $_FILES[$param];
         }
-        
         if ($value) {
-            
-            // it's a string
             if (is_string($value)) {
-                
-                // empty values are allowed (for switch-like parameters)
-                if ($empty_allowed) {
-                    
-                    if (trim($value) == "") {
-                        return true;
-                    }
-                    
-                    return $value;
+                if ($required && trim($value) == "") {
+                    die(json_encode(["error" => "Missing parameter value: $param"]));
                 }
-                
-                // empty values are not allowed
-                if (trim($value) == "") {
-                    
-                    // die if the value is required
-                    if ($die) {
-                        die("ERROR: Missing parameter value: $param");
-                    }
-                    
-                    // if there is a parameter AND its value is empty AND it's not required, do what?
-                    // if the parameter is expected to be not empty, it should be required
-                    return null;
-                }
-            
                 return $value;
             }
-            
-            // it's a file
             if (is_array($value)) {
                 return $value;
             }
-            
         }
-        
-        if ($die) {
-            die("ERROR: Missing parameter: $param");
+        if ($required) {
+            die(json_encode(["error" => "Missing parameter: $param"]));
         }
-        
-        // there is no parameter
         return null;
     }
     
-?>
