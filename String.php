@@ -9,13 +9,14 @@
         so array contains, string includes
     
     str_includes($str, $substr [, $all = false])
+    str_starts_with($haystack, $needle)
     is_regex($str)
+    is_ipv4($str)
     str_strip($substr, $str)
     clean_io($str)
     filename($str)
     latinize($str)
     url_friendly($str)
-    str_starts_with($haystack, $needle)
 */
 
 
@@ -44,9 +45,42 @@ function str_includes($str, $substr, $all = false) {
 }
 
 
+function str_starts_with($haystack, $needle) {
+    if ($haystack) {
+        return $haystack[0] === $needle[0]
+            ? strncmp($haystack, $needle, strlen($needle)) === 0
+            : false;
+    }
+    return false;
+}
+
+
 function is_regex($str) {
     $regex = "/^\/[\s\S]+\/$/";
     return preg_match($regex, $str);
+}
+
+
+function is_date($str) {
+    $regex = "/^\d{4}-(?:0?[1-9]|1[0-2]|)-(?:3[01]|[0-2]?[0-9]|)$/";
+    return preg_match($regex, $str);
+}
+
+
+function is_time($str) {
+    $regex = "/^(?:2[0-3]|1[0-9]|0?[0-9])(?:[-:][0-5]?[0-9]){2}$/";
+    return preg_match($regex, $str);
+}
+
+
+function is_datetime($str) {
+    $regex = "/^\d{4}-(?:0?[1-9]|1[0-2]|)-(?:3[01]|[0-2]?[0-9]|)(?:T| )(?:2[0-3]|1[0-9]|0?[0-9])(?:[-:][0-5]?[0-9]){2}$/";
+    return preg_match($regex, $str);
+}
+
+
+function is_ipv4($str) {
+    return preg_match("/^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/", $str);
 }
 
 
@@ -122,12 +156,5 @@ function url_friendly($str) {
     }
     $str = preg_split("/\s+/", $str);
     return implode("-", $str);
-}
-
-
-function str_starts_with($haystack, $needle) {
-    return $haystack[0] === $needle[0]
-        ? strncmp($haystack, $needle, strlen($needle)) === 0
-        : false;
 }
 
