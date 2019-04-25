@@ -18,7 +18,7 @@ function GET($param, $switchlike = false, $required = false) {
     return null;
 }
 
-function POST($param, $required = false) {
+function POST($param, $switchlike = false, $required = false) {
     $value = null;
     if (isset($_POST[$param])) {
         $value = $_POST[$param];
