@@ -66,12 +66,12 @@ function array_sequential(array $array, bool $strict = false) : bool {
 
 
 /**
- *  Removes an item from the array.
- *  Expects an item instead of index/offset in the second argument.
+ *  Removes a value from the array.
+ *  Expects a value instead of index/offset in the second argument.
  *  https://www.php.net/manual/en/function.array-splice.php
  */
-function array_splice_item(array &$array, $item, $replacement = null) : array {
-    $index = array_search($item, $array);
+function array_remove_value(array &$array, $value) : array {
+    $index = array_search($value, $array);
     if ($index === false) return null;
-    return array_splice($array, $index, 1, $replacement);
+    return array_splice($array, $index, 1);
 }

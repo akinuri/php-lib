@@ -1,33 +1,35 @@
 <?php
 
-
-/*
-    lowercase = without leading/trailing zero
-    uppercase = with leading zero
-    
-    millisecond = l (0.12) | L (0.120)
-    second      = s (8)    | S (08)
-    minute      = i (5)    | I (05)
-    hour        = h (2)    | H (02)
-    day         = d (1)    | D (01)
-    month       = m (4)    | M (04)
-    year        = y (312)  | Y (312) - NO ZEROS
-*/
-
-
-define("DUR_MS", 1);
-define("DUR_S",  1000);
-define("DUR_I",  60000);        // 1000 * 60
-define("DUR_H",  3600000);      // 1000 * 60 * 60
-define("DUR_D",  86400000);     // 1000 * 60 * 60 * 24
-define("DUR_M",  2592000000);   // 1000 * 60 * 60 * 24 * 30
-define("DUR_Y",  31536000000);  // 1000 * 60 * 60 * 24 * 365
-
-
 class Stopwatch {
     
-    public $_start   = 0;
-    public $_stop    = 0;
+    /*
+        lowercase = without leading/trailing zero
+        uppercase = with leading zero
+        
+        millisecond = l (0.12) | L (0.120)
+        second      = s (8)    | S (08)
+        minute      = i (5)    | I (05)
+        hour        = h (2)    | H (02)
+        day         = d (1)    | D (01)
+        month       = m (4)    | M (04)
+        year        = y (312)  | Y (312) - NO ZEROS
+    */
+    
+    private static const DUR_L = 1;
+    private static const DUR_S = 1000;
+    private static const DUR_I = 60000;         // 1000 * 60
+    private static const DUR_H = 3600000;       // 1000 * 60 * 60
+    private static const DUR_D = 86400000;      // 1000 * 60 * 60 * 24
+    private static const DUR_M = 2592000000;    // 1000 * 60 * 60 * 24 * 30
+    private static const DUR_Y = 31536000000;   // 1000 * 60 * 60 * 24 * 365
+    
+    
+    
+    
+    
+    
+    private $_start   = 0;
+    private $_stop    = 0;
     public $elapsed  = 0;
     public $duration = null;
     public $format   = "y-m-d h:i:s.l";
