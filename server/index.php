@@ -1,5 +1,7 @@
 <?php
 
+include "ext/HTMLElement.php";
+
 $files = array_diff(scandir("vars"), [".", ".."]);
 sort($files);
 
@@ -66,8 +68,6 @@ foreach ($files as $file) {
     </thead>
 <?php
 
-include "element.php";
-
 foreach ($props as $prop) {
     $row = elem("tr");
     $row->append( elem("td", null, $prop) );
@@ -76,13 +76,13 @@ foreach ($props as $prop) {
         $cell = elem("td");
         if (isset($vars[$file][$prop])) {
             $cell->append($vars[$file][$prop]);
-            $cell->attr("class", "exists");
+            $cell->setAttribute("class", "exists");
             $common[] = true;
         }
         $row->append($cell);
     }
     if (count($common) == 4) {
-        $row->attr("class", "common");
+        $row->setAttribute("class", "common");
     }
     $row->output();
 }

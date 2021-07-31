@@ -1,6 +1,6 @@
 <?php
 
-function str_random($length = 16, $ranges = "a-zA-Z0-9") {
+function random($length = 16, $ranges = "a-zA-Z0-9") {
     
     $sets = [
         "lower" => "abcdefghijklmnopqrstuvwxyz",
