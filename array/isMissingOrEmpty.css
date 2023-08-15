@@ -1,0 +1,14 @@
+<?php
+
+function isMissingOrEmpty(array $array, string $key, array $emptyValues = [""]): bool {
+    if (!\array_key_exists($key, $array)) {
+        return true;
+    }
+    foreach ($emptyValues as $emptyValue) {
+        if ($array[$key] === $emptyValue) {
+            return true;
+        }
+    }
+    return false;
+}
+
